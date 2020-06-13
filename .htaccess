@@ -1,0 +1,14 @@
+RewriteEngine On
+RewriteBase /
+DirectoryIndex index.php
+AddDefaultCharset UTF-8
+
+# Don't loop.
+RewriteCond %{ENV:REDIRECT_STATUS} !^$
+RewriteRule .* - [L]
+
+# If a requested path is a file in public directory, return it
+RewriteCond %{DOCUMENT_ROOT}/public/%{REQUEST_URI} -f
+RewriteRule !(^public) public%{REQUEST_URI} [L]
+# Else redirect the request to index.php
+RewriteRule ^(.*)$ index.php [L]
